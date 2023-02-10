@@ -44,7 +44,7 @@ void all_powerbank_staus()
   }
 }
 
-void return_powerbank(int pb_id)
+void return_laew(int pb_id)
 { 
   const String url = baseUrl + "/return-laew";
   String json;
@@ -93,19 +93,29 @@ void pai_laew(int pb_id)
 void pw1(){
   if (Borrow_mai){
       digitalWrite(green1,1);
-      if (analogRead(ldr1)==4095){
+      if (analogRead(ldr1)>=3900){
         digitalWrite(green1,0);
         digitalWrite(red1,1);
       }
+      else  {
+        digitalWrite(green1,1);
+        digitalWrite(red1,0);
+      }
   }
   else{
-    if(analogRead(ldr1)==4095){
+   
+    if(analogRead(ldr1)>=3900){
       digitalWrite(red1,1);
       digitalWrite(buzzer1, HIGH);
       pai_laew(PB_ID);
     }
+    else{
+      digitalWrite(buzzer1, LOW);
+      digitalWrite(red1,0);
+    }
+  
   }
-  }
+}
 
 void kuen(){
 if(analogRead(ldr1)<4095){
@@ -114,13 +124,12 @@ if(analogRead(ldr1)<4095){
 }
 }
 
-
 void setup() {
   Serial.begin(9600);
   pinMode(green1, OUTPUT);
-  digitalWrite(green1, 1);
+  digitalWrite(green1, 0);
   pinMode(green1, OUTPUT);
-  digitalWrite(red1, 1);
+  digitalWrite(red1, 0);
   pinMode(red1, OUTPUT);
   pinMode(red1, OUTPUT);
   pinMode(green1, OUTPUT);
